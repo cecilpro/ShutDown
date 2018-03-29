@@ -6,8 +6,8 @@
 #      by: PyQt5 UI code generator 5.2.1
 #
 # WARNING! All changes made in this file will be lost!
-import sys
 import os
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_shut(object):
@@ -63,7 +63,10 @@ class Ui_shut(object):
         if self.flag:
             self.flag = False
             try:
-                os.popen('at '+h+':'+m+' shutdown -s')
+                if sys.platform == 'windows':
+                    os.popen('at '+h+':'+m+' shutdown -s')
+                if sys.platform == 'linux':
+                    os.popen('shutdown -h '+h+':'+m)
                 self.label_4.setText('Success! the system will shutdown at today '+h+':'+m+'.')
                 self.pushButton.setText('Remove')
                 self.lineEdit.clear()
@@ -73,7 +76,10 @@ class Ui_shut(object):
         else:
             self.flag = True
             try:
-                os.popen('at /delete /yes')
+                if sys.platform == 'windows':
+                    os.popen('at /delete /yes')
+                if sys.platform == 'linux':
+                    os.popen('shutdown -c')
                 self.label_4.setText('Success! already removed~')
                 self.pushButton.setText('Set')
                 self.lineEdit.clear()
